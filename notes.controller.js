@@ -25,10 +25,14 @@ async function addNote(title) {
 async function removeNote(id) {
   const notes = await getNotes();
   const filteredNotes = notes.filter((note) => note.id !== id);
-  console.log(filteredNotes);
+
+  if (filteredNotes.length === notes.length) {
+    console.log(chalk.red(`Note with id ${id} was not found!`));
+    return;
+  }
 
   await fs.writeFile(notesPath, JSON.stringify(filteredNotes));
-  console.log(chalk.bgRed(`Note with id ${id} was removed!`));
+  console.log(chalk.bgRed(`Note with id ${id} was successfully removed from list!`));
 }
 
 async function getNotes() {
